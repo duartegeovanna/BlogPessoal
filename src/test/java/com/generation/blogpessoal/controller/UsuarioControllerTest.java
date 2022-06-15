@@ -141,4 +141,20 @@ public class UsuarioControllerTest {
 
 	}
 	
+	@Test
+	@Order(6)
+	@DisplayName("Listar Um Usuário Específico")
+	public void deveListarApenasUmUsuario() {
+
+		Optional<Usuario> usuarioBusca = usuarioService.cadastrarUsuario(new Usuario(0L, 
+				"Laura Santolia", "laura_santolia@email.com.br", "laura12345", "https://i.imgur.com/EcJG8kB.jpg"));
+			
+		ResponseEntity<String> resposta = testRestTemplate
+				.withBasicAuth("root", "root")
+				.exchange("/usuarios/" + usuarioBusca.get().getId(), HttpMethod.GET, null, String.class);
+	
+		assertEquals(HttpStatus.OK, resposta.getStatusCode());
+		
+	}
+	
 }
